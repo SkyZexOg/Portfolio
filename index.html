@@ -459,13 +459,13 @@ footer{position:relative;z-index:10;background:var(--bg2);padding:26px 48px;bord
   <div style="position:relative;z-index:2">
     <div class="hero-pill rv"><span class="pill-dot"></span>Available for Work</div>
     <h1 class="hero-name rv d1">Rajan<br><em>Vishwakarma</em></h1>
-    <div class="hero-typed-wrap rv d2">
-      <span class="hero-pfx">›_</span>
-      <span class="hero-typed" id="typed"></span>
-      <span class="tcur"></span>
+    <div class="hero-typed-wrap" style="display:flex;align-items:center;gap:10px;margin-bottom:24px;margin-top:16px">
+      <span style="font-family:monospace;color:rgba(168,255,120,.7);font-size:.82rem;font-weight:600">›_</span>
+      <span id="typed" style="font-size:1rem;font-weight:700;color:#A8FF78;min-width:10px"></span>
+      <span style="display:inline-block;width:2px;height:.85em;background:#A8FF78;vertical-align:middle;animation:bl 1s step-end infinite"></span>
     </div>
   </div>
-  <div class="hero-bar rv d3" style="position:relative;z-index:2">
+  <div class="hero-bar" style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-top:28px;border-top:1px solid rgba(255,255,255,.07);margin-top:20px;position:relative;z-index:2">
     <p class="hero-desc"><strong>MERN Stack Developer</strong> & BCA Final Year Student from Gorakhpur. Passionate about building products that make a real difference.</p>
     <div class="hero-right">
       <div class="hero-stat"><span class="hsn">BCA</span><span class="hsl">Final Year</span></div>
@@ -899,14 +899,24 @@ mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mob.classLis
 
 /* ── Typing ── */
 const P=['MERN Stack Developer','Building Real Products','BCA Final Year Student','Learning Every Day'];
-let pi=0,ci=0,del=false,tel=document.getElementById('typed');
+let pi=0,ci=0,del=false;
 function type(){
+  const tel=document.getElementById('typed');
+  if(!tel)return;
   const p=P[pi];
   if(!del){tel.textContent=p.slice(0,++ci);if(ci===p.length){del=true;setTimeout(type,2200);return}}
   else{tel.textContent=p.slice(0,--ci);if(ci===0){del=false;pi=(pi+1)%P.length}}
   setTimeout(type,del?36:76);
 }
-type();
+document.addEventListener('DOMContentLoaded',()=>{
+  // Make everything visible
+  document.querySelectorAll('.rv,.rv-l,.rv-r,.sk-tech-item').forEach(el=>{
+    el.style.opacity='1';
+    el.style.transform='none';
+  });
+  // Start typing
+  setTimeout(type, 100);
+});
 
 /* ── Scroll Reveal (all types) ── */
 const io=new IntersectionObserver(es=>es.forEach(e=>{
@@ -918,8 +928,6 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{
 document.querySelectorAll('.rv,.rv-l,.rv-r,.sec-line').forEach(e=>io.observe(e));
 window.addEventListener('load',()=>{
   document.querySelectorAll('#home .rv,.hero-photo').forEach(e=>e.classList.add('in'));
-  // Force typing restart
-  if(tel) { tel.textContent=''; pi=0; ci=0; del=false; setTimeout(type, 200); }
 });
 
 /* ── Stagger skill items on scroll ── */
